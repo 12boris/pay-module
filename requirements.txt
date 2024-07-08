@@ -1,0 +1,4 @@
+fastapi[all]~=0.101.1
+aiogram[all]~=2.25.1
+sqlalchemy[all]~=2.0.20
+pydantic~=2.2.0

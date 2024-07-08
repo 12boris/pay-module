@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+      <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            
+            <!-- Bootstrap CSS -->
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+            <link rel="stylesheet" type="text/css" href="/static/styles.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      
+            <title>Document</title>
+      </head>
+
+      <style>
+            @import url('https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700');
+
+            .main{
+                  width: 90%;
+                  max-width: 500px;
+                  height: max-content;
+                  font-size: 20px;
+                  background-color: aliceblue;
+                  padding: 30px;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  flex-wrap: wrap;
+            }
+
+            p{
+                  width: 100%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  flex-wrap: wrap;
+                  font-family: 'Montserrat';
+            }
+
+      </style>
+
+      <body>
+
+            <div style="display: flex;justify-content: center;align-items: center;margin-top: 10%;">
+                  <div class="main">
+                        <p>{{ product.quan }} товар - {{ product.cost }} рублей</p>
+
+                        <a class="button-pay w-100 btn btn-primary btn-lg" href="{{ link | safe }}">Оплатить</a>
+                  </div>
+            </div>
+            
+      </body>
+</html>
