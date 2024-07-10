@@ -15,20 +15,21 @@
       <style>
             @import url('https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700');
 
-            .main{
+            .main {
                   width: 90%;
                   max-width: 500px;
                   height: max-content;
                   font-size: 20px;
                   background-color: aliceblue;
                   padding: 30px;
+                  padding-top: 21px;
                   display: flex;
                   justify-content: center;
                   align-items: center;
                   flex-wrap: wrap;
             }
 
-            p{
+            p {
                   width: 100%;
                   display: flex;
                   justify-content: center;
@@ -37,13 +38,42 @@
                   font-family: 'Montserrat';
             }
 
+            .product {
+                  width: 100%;
+                  height: max-content;
+                  padding: 10px;
+                  margin-top: 20px;
+                  background-color: white;
+                  border-radius: 10px;
+                  display: flex;
+            }
+
+            .product p {
+                  margin: 0;
+                  padding: 0;
+                  font-size: 18px;
+            }
+
       </style>
 
       <body>
 
             <div style="display: flex;justify-content: center;align-items: center;margin-top: 10%;">
                   <div class="main">
-                        <p>{{ product.quan }} товар - {{ product.cost }} рублей</p>
+                        <div class="product" style="margin-top: 0px;background: none;">
+                              <p style="font-size: 17px">Название</p><p style="font-size: 17px">Цена</p><p style="font-size: 17px">Кол-во</p>
+                        </div>
+                        {% for product in products %}
+                        <div class="product">
+                              <p>{{ product.name }}</p>
+                              <p>{{ product.price * product.quantity }}</p>
+                              <p>{{ product.quantity }}</p>
+                        </div>
+                        {% endfor %}
+
+                        <div class="product" style="margin: 10px 0 10px 0;background: none;">
+                              <p style="font-size: 17px">Всего</p><p style="font-size: 17px">{{ total_cost }} Руб</p><p style="font-size: 17px">{{ total_quan }}</p>
+                        </div>
 
                         <a class="button-pay w-100 btn btn-primary btn-lg" href="{{ link | safe }}">Оплатить</a>
                   </div>

@@ -18,18 +18,25 @@ REQ_URL = "http://127.0.0.1:8000"
 def start_order(product, cost, quan, user_id):
     data={'user_id': user_id, 'invoice': str(cost)}
     id = int(req.post(f"{REQ_URL}/add_invoice", json.dumps(data)).json()['id'])
-    print(id)
+    
+    products = [{'name': 'name', 'price': int(cost), 'quantity': int(quan)}, {'name': 'name', 'price': int(cost), 'quantity': int(quan)}, {'name': 'name', 'price': int(cost), 'quantity': int(quan)}]
+    total_cost = 0
+    total_quan = 0
+
+    for i in products:
+        total_cost += i['price'] * i['quantity']
+        total_quan += i['quantity']
         
     merchant_login = LOGIN_ROBOKASSA
     merchant_password_1 = PASSWORD_ROBOKASSA
         
-    link = generate_payment_link(merchant_login, merchant_password_1, cost, id, 'test')
+    link = generate_payment_link(merchant_login, merchant_password_1, total_cost, id, 'test')
 
     data = req.get(f"{REQ_URL}/get_invoice/{id}").json()
-    data['invoice_status'] = f'{calculate_signature(merchant_login,cost,id,merchant_password_1)} {cost}'
+    data['invoice_status'] = f'{calculate_signature(merchant_login,total_cost,id,merchant_password_1)} {total_cost}'
     req.put(f"{REQ_URL}/update_invoice/{id}", json.dumps(data))
     
-    return render_template('/start_order.html', link=link, product={'cost': cost, 'quan': quan, 'name': product}, user_id=user_id)
+    return render_template('/start_order.html', link=link, products=products, user_id=user_id, total_cost=total_cost, total_quan=total_quan)
 
 
 @app.route("/success/", methods=['GET', 'POST'])

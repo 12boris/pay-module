@@ -55,7 +55,7 @@ def generate_payment_link(
         merchant_password_1
     )
 
-    data = f'MerchantLogin={merchant_login}&OutSum={cost}&invoiceID={number}&Description=test&SignatureValue={signature}'
+    data = f'MerchantLogin={merchant_login}&OutSum={cost}&invoiceID={number}&Description=None&SignatureValue={signature}'
     return f'{robokassa_payment_url}?{data}'
 
 
