@@ -11,7 +11,7 @@ from config import *
 
 app = Flask(__name__)
 # REQ_URL = "http://rubl_backend:8000"
-REQ_URL = "http://127.0.0.1:8000"
+REQ_URL = "http://127.0.0.1:5000"
 
 
 @app.route("/start_order/<products>/<user_id>", methods=['GET', 'POST'])
