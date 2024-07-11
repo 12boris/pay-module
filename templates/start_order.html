@@ -60,18 +60,18 @@
 
             <div style="display: flex;justify-content: center;align-items: center;margin-top: 10%;">
                   <div class="main">
-                        <div class="product" style="margin-top: 0px;background: none;">
+                        <div class="product" style="margin-top: 0px;background: #bfdfff;">
                               <p style="font-size: 17px">Название</p><p style="font-size: 17px">Цена</p><p style="font-size: 17px">Кол-во</p>
                         </div>
                         {% for product in products %}
                         <div class="product">
                               <p>{{ product.name }}</p>
-                              <p>{{ product.price * product.quantity }}</p>
+                              <p>{{ product.sum * product.quantity }}</p>
                               <p>{{ product.quantity }}</p>
                         </div>
                         {% endfor %}
 
-                        <div class="product" style="margin: 10px 0 10px 0;background: none;">
+                        <div class="product" style="margin: 18px 0 18px 0;background: #bfdfff;">
                               <p style="font-size: 17px">Всего</p><p style="font-size: 17px">{{ total_cost }} Руб</p><p style="font-size: 17px">{{ total_quan }}</p>
                         </div>
 

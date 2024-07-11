@@ -4,7 +4,7 @@ from flask import Flask, render_template, request
 import requests as req
 import hashlib
 import json
-from urllib.parse import urlparse
+from urllib.parse import urlparse, quote
 from urllib import parse
 from utils import *
 from config import *
@@ -14,23 +14,45 @@ app = Flask(__name__)
 REQ_URL = "http://127.0.0.1:8000"
 
 
-@app.route("/start_order/<product>/<cost>/<quan>/<user_id>", methods=['GET', 'POST'])
-def start_order(product, cost, quan, user_id):
+@app.route("/start_order/<products>/<user_id>", methods=['GET', 'POST'])
+def start_order(products, user_id):
+    cost = 1
     data={'user_id': user_id, 'invoice': str(cost)}
     id = int(req.post(f"{REQ_URL}/add_invoice", json.dumps(data)).json()['id'])
     
-    products = [{'name': 'name', 'price': int(cost), 'quantity': int(quan)}, {'name': 'name', 'price': int(cost), 'quantity': int(quan)}, {'name': 'name', 'price': int(cost), 'quantity': int(quan)}]
+    products = [
+            {
+              "name": "Название товара 1",
+              "quantity": 1,
+              "sum": 1,
+              "payment_method": "full_payment",
+              "payment_object": "commodity",
+              "tax": "vat10"
+            },
+            {
+              "name": "Название товара 2",
+              "quantity": 1,
+              "sum": 1,
+              "cost": 1,		  
+              "payment_method": "full_prepayment",
+              "payment_object": "service",
+              "nomenclature_code": "04620034587217"
+            }
+          ]
+    
     total_cost = 0
     total_quan = 0
 
     for i in products:
-        total_cost += i['price'] * i['quantity']
+        total_cost += i['sum'] * i['quantity']
         total_quan += i['quantity']
         
     merchant_login = LOGIN_ROBOKASSA
     merchant_password_1 = PASSWORD_ROBOKASSA
+
+    print(quote(json.dumps(products)))
         
-    link = generate_payment_link(merchant_login, merchant_password_1, total_cost, id, 'test')
+    link = generate_payment_link(products, merchant_login, merchant_password_1, total_cost, id, 'test')
 
     data = req.get(f"{REQ_URL}/get_invoice/{id}").json()
     data['invoice_status'] = f'{calculate_signature(merchant_login,total_cost,id,merchant_password_1)} {total_cost}'

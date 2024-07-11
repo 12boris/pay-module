@@ -1,7 +1,7 @@
 import decimal
 import hashlib
 from urllib import parse
-from urllib.parse import urlparse
+from urllib.parse import urlparse, quote
 
 
 def calculate_signature(*args) -> str:
@@ -38,6 +38,7 @@ def check_signature_result(
 # Формирование URL переадресации пользователя на оплату.
 
 def generate_payment_link(
+        items,
         merchant_login: str,  # Merchant login
         merchant_password_1: str,  # Merchant password
         cost: decimal,  # Cost of goods, RU
@@ -48,14 +49,25 @@ def generate_payment_link(
 ) -> str:
     """URL for redirection of the customer to the service.
     """
+
+    products = {'items': []}
+    for i in items:
+        i['payment_method']  = 'full_payment'
+        i['payment_object'] = 'commodity'
+        i['tax'] = 'none'
+        products['items'].append(i)
+    
+    print(products)
+
     signature = calculate_signature(
         merchant_login,
         cost,
         number,
+        products,
         merchant_password_1
     )
-
-    data = f'MerchantLogin={merchant_login}&OutSum={cost}&invoiceID={number}&Description=None&SignatureValue={signature}'
+        
+    data = f'MerchantLogin={merchant_login}&OutSum={cost}&invoiceID={number}&Description=Тестовый платёж&Receipt={products}&SignatureValue={signature}'
     return f'{robokassa_payment_url}?{data}'
 
 
