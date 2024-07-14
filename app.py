@@ -79,15 +79,9 @@ def success():
 # ответ от робокассы
 @app.route('/finish_order/', methods=['GET', 'POST'])
 def result_payment() -> str:
-
     number = json.loads(request.json)["InvId"]
-    invoice = req.get(f"{REQ_URL}/get_invoice/{number}").json()
-
-    signature = invoice['invoice_status'].split(' ')[0]
-    cost = invoice['invoice_status'].split(' ')[1]
-
-    if check_signature_result(cost, number, signature, PASSWORD_ROBOKASSA):
-        return f"OK{number}"
+    print(number)
+    return f"OK{number}"
 
 
 if __name__ == '__main__':
