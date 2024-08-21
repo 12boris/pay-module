@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+      <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            
+            <!-- Bootstrap CSS -->
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+            <link rel="stylesheet" type="text/css" href="/static/styles.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      
+            <title>Document</title>
+      </head>
+
+      <style>
+            @import url('https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700');
+
+            head, body{
+                  background-color: aliceblue;
+            }
+
+            .main {
+                  width: 90%;
+                  max-width: 500px;
+                  height: max-content;
+                  font-size: 20px;
+                  background-color: white;
+                  padding: 30px;
+                  padding-top: 21px;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  flex-wrap: wrap;
+                  border-radius: 10px;
+            }
+
+            p {
+                  width: 100%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  flex-wrap: wrap;
+                  font-family: 'Montserrat';
+            }
+
+            .oferta{
+                  border-top: 1px solid lightgray;
+                  display: block;
+                  font-size: 15px;
+            }
+
+            .product {
+                  width: 100%;
+                  height: max-content;
+                  padding: 10px;
+                  margin: 10px 0;
+                  background-color: #f0f8ff;
+                  border-radius: 10px;
+                  display: flex;
+            }
+
+            .product p {
+                  margin: 0;
+                  padding: 0;
+                  font-size: 16px;
+                  color: #848a9d;
+            }
+
+            a{
+                  transition: .1s !important;
+            }
+
+      </style>
+
+      <body>
+
+            <div id="period" style="display: flex;justify-content: center;align-items: center;margin-top: 10%;">
+                  <div class="main">
+                        <div class="product">
+                              <p style='justify-content: center;width: 100%;'>{{ name }}</p>
+                        </div>
+
+                        <div class="product" style="width: 95%;background-color: white;margin: 0;">
+                              <p style="justify-content: left;font-size: 17px;">Итого</p>
+                              <p style="font-size: 17px;justify-content: end;">{{ total_cost }} ₽</p>
+                        </div>
+                        
+                        <p class="oferta" style="margin: 25px 0;padding-top: 25px;">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" style="margin-right: 10px;">
+                              Я даю согласие на регулярные списания, на обработку персональных данных и принимаю условия 
+                              <a style="color: #0090ff;background: none;border: none;text-decoration: underline;" href="/oferta">публичной оферты</a>
+
+                              <p style="font-size: 14px;">Повторные списания за подписку будут <strong style="margin-left: 5px;">раз в {{ mounths }}</strong> на сумму <strong style="margin-left: 5px;">{{ total_cost }} рублей</strong></p>
+                        </p>
+
+                        <form method="POST" action="https://auth.robokassa.ru/Merchant/Index.aspx" class="w-100">
+                              <input type="hidden" name="MerchantLogin" value="BySviat">
+                              <input type="hidden" name="InvoiceID" value="{{ id }}">
+                              <input type="hidden" name="Description" value="test">
+                              <input type="hidden" name="SignatureValue" value="{{ signature }}">
+                              <input type="hidden" name="OutSum" value="{{ total_cost }}">
+                              <input type="hidden" name="Recurring" value="true">
+                              <input type="submit" value="Оплатить" class="button-pay w-100 btn btn-primary btn-lg">
+                        </form>
+                  </div>
+            </div>
+
+            
+            <div id="oferta" style="display: none;justify-content: center;">
+
+                  <div style="width: 70%;min-width: 300px;white-space: pre-line;font-size: 18px;">
+                        <div class="w-100" style="height: 50px;">
+                              <button onclick="oferta_close()" style="background: none;border: 1px solid black;width: 30px;height: 30px;font-size: 25px;display: flex;justify-content: center;align-items: center;"><p style="rotate: 45deg;margin-top: 18px;">+</p></button>
+                        </div>
+
+                        1. Общие положения
+
+                        1.1. Настоящая Публичная оферта (далее – Оферта) является официальным предложением BySviat, именуемого в дальнейшем "Исполнитель", адресованным любому физическому лицу (далее – "Заказчик"), заключить Договор на предоставление услуг подписки на условиях, определенных в настоящей Оферте.
+                        
+                        1.2. Заключение Договора производится посредством акцепта настоящей Оферты Заказчиком. Акцепт Оферты означает полное и безоговорочное принятие Заказчиком всех условий Оферты.
+                        
+                        2. Предмет Оферты
+                        
+                        2.1. Исполнитель обязуется предоставить Заказчику услуги подписки, указанные на сайте 'http://80.78.243.201/start_order/', а Заказчик обязуется оплатить эти услуги в соответствии с условиями настоящей Оферты.
+                        
+                        3. Права и обязанности сторон
+                        
+                        3.1. Исполнитель обязуется:
+                        
+                        Предоставить Заказчику доступ к услугам подписки после акцепта Оферты и оплаты.
+                        Обеспечивать надлежащее качество предоставляемых услуг.
+                        3.2. Заказчик обязуется:
+                        
+                        Своевременно оплачивать услуги подписки.
+                        Не передавать третьим лицам данные доступа к услугам подписки.
+                        4. Условия оплаты
+                        
+                        4.1. Оплата услуг подписки осуществляется посредством сервиса Робокасса.
+                        
+                        4.2. Заказчик соглашается с тем, что подписка будет продлеваться автоматически, если Заказчик не отменит ее.
+                        
+                        5. Ответственность сторон
+                        
+                        5.1. Исполнитель не несет ответственности за невозможность предоставления услуг подписки по причинам, не зависящим от Исполнителя.
+                        
+                        5.2. В случае нарушения условий настоящей Оферты Заказчиком, Исполнитель имеет право приостановить или прекратить предоставление услуг подписки без предварительного уведомления.
+                        
+                        6. Персональные данные
+                        
+                        6.1. Заказчик дает согласие на обработку своих персональных данных в соответствии с Политикой конфиденциальности, размещенной на сайте 'http://80.78.243.201/start_order/'.
+                        
+                        7. Порядок разрешения споров
+                        
+                        7.1. Все споры и разногласия, возникающие из настоящей Оферты, подлежат разрешению путем переговоров.
+                        
+                        7.2. В случае невозможности разрешения споров путем переговоров, они подлежат разрешению в судебном порядке в соответствии с действующим законодательством.
+                        
+                        8. Заключительные положения
+                        
+                        8.1. Настоящая Оферта вступает в силу с момента ее размещения на сайте 'http://80.78.243.201/start_order/' и действует до момента отзыва Исполнителем.
+                        
+                        8.2. Исполнитель оставляет за собой право вносить изменения в условия настоящей Оферты в одностороннем порядке. Изменения вступают в силу с момента их размещения на сайте 'http://80.78.243.201/start_order/'.
+                        
+                        Реквизиты Исполнителя:
+                        +7 919 948 5553
+                        
+                        Дата размещения оферты: 22.07.2024
+                  </div>
+                  
+            </div>
+            
+      </body>
+
+      <script>
+            
+            document.addEventListener('DOMContentLoaded', function () {
+                  const checkbox = document.getElementById('inlineCheckbox1');
+                  const submitButton = document.querySelector('input[type="submit"]');
+
+                  checkbox.addEventListener('change', function () {
+                        submitButton.disabled = !checkbox.checked;
+                  });
+
+                  // Ensure the submit button is disabled initially
+                  submitButton.disabled = true;
+            });
+
+            function oferta_open(){
+                  document.getElementById('period').style.display = 'none'
+                  document.getElementById('oferta').style.display = 'flex'
+            }
+            
+            function oferta_close(){
+                  document.getElementById('period').style.display = 'flex'
+                  document.getElementById('oferta').style.display = 'none'
+            }
+
+      </script>
+</html>
